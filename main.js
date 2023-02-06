@@ -4,7 +4,39 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const posts = document.getElementsByClassName(".media-post")
 
+function assignFunctionality(){
+  let allLikeButtons = [...document.querySelectorAll(".like-glyph")]
+  allLikeButtons.forEach(function(likeButton){
+    likeButton.addEventListener("click", likeFunctionality)
+    console.log("worked")
+  })
+}
+
+assignFunctionality()
+
+function likeFunctionality(event){
+  mimicServerCall()
+    .then(() => {
+      if(event.srcElement.textContent === EMPTY_HEART){
+        event.srcElement.textContent = FULL_HEART
+        event.srcElement.classList.add("activated-heart");
+        console.log("Liked!")
+      } else if(event.srcElement.textContent === FULL_HEART){
+        event.srcElement.textContent = EMPTY_HEART
+        event.srcElement.classList.remove("activated-heart");
+        console.log("Un-liked!")
+      }
+    })
+    .catch(() => {
+      let errorModal = document.getElementById("modal")
+      errorModal.classList.remove("hidden");
+      setTimeout(() =>{
+        errorModal.classList.add("hidden");
+      }, 3000)
+    })
+}
 
 
 //------------------------------------------------------------------------------
